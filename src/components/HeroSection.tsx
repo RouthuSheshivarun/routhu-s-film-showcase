@@ -1,21 +1,31 @@
+import React from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Play, Film, Instagram, Video } from "lucide-react";
+import { ArrowRight, Play, Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ScrollVelocity } from "@/components/ui/scroll-velocity";
 
-const FloatingIcon = ({ 
-  icon: Icon, 
-  className, 
-  delay = 0 
-}: { 
-  icon: React.ElementType; 
-  className: string; 
+// Video files array - maps over all videos in /public/videos
+const videos = [
+  "/videos/vid 1.mov",
+  "/videos/vid 2.mov",
+  "/videos/vid 3.mov",
+  "/videos/vid 4.mov",
+];
+
+const FloatingIcon = ({
+  icon: Icon,
+  className,
+  delay = 0,
+}: {
+  icon: React.ElementType;
+  className: string;
   delay?: number;
 }) => (
   <motion.div
     initial={{ opacity: 0, scale: 0.5 }}
     animate={{ opacity: 1, scale: 1 }}
     transition={{ duration: 0.5, delay }}
-    className={`absolute bg-card rounded-2xl p-3 md:p-4 shadow-card ${className}`}
+    className={`absolute bg-card rounded-2xl p-3 md:p-4 shadow-card z-40 ${className}`}
   >
     <motion.div
       animate={{ y: [0, -8, 0] }}
@@ -26,18 +36,62 @@ const FloatingIcon = ({
   </motion.div>
 );
 
+// Video item component for scrolling rows - seamless loop
+const VideoItem = ({ src }: { src: string }) => (
+  <div className="relative flex-shrink-0 w-48 h-28 md:w-64 md:h-36 lg:w-80 lg:h-44 rounded-xl overflow-hidden">
+    <video
+      src={src}
+      autoPlay
+      loop
+      muted
+      playsInline
+      className="w-full h-full object-cover"
+    />
+  </div>
+);
+
 const HeroSection = () => {
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Decorative floating icons */}
-      <FloatingIcon icon={Film} className="top-32 left-[10%] hidden md:block" delay={0.2} />
-      <FloatingIcon icon={Instagram} className="top-40 right-[12%] hidden md:block" delay={0.4} />
-      <FloatingIcon icon={Video} className="bottom-40 left-[15%] hidden md:block" delay={0.6} />
-      <FloatingIcon icon={Play} className="bottom-32 right-[18%] hidden md:block" delay={0.8} />
+    <section
+      id="home"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+    >
+      {/* Gradient overlay for video visibility control */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background/80 z-[5]" />
+
+      {/* Top scrolling video row */}
+      <div className="absolute top-16 left-0 right-0 z-50 opacity-100">
+        <ScrollVelocity velocity={3} className="py-2">
+          {videos.map((video, index) => (
+            <VideoItem key={`top-${index}`} src={video} />
+          ))}
+        </ScrollVelocity>
+      </div>
+
+      {/* Bottom scrolling video row */}
+      <div className="absolute bottom-0 left-0 right-0 z-50 opacity-100">
+        <ScrollVelocity velocity={-3} className="py-2">
+          {videos.map((video, index) => (
+            <VideoItem key={`bottom-${index}`} src={video} />
+          ))}
+        </ScrollVelocity>
+      </div>
+
+      {/* Social icons - positioned near hero content for visibility */}
+      <FloatingIcon
+        icon={Instagram}
+        className="top-1/2 -translate-y-1/2 left-[5%] md:left-[8%] lg:left-[12%]"
+        delay={0.2}
+      />
+      <FloatingIcon
+        icon={Play}
+        className="top-1/2 -translate-y-1/2 right-[5%] md:right-[8%] lg:right-[12%]"
+        delay={0.4}
+      />
 
       {/* Decorative arc line */}
       <svg
-        className="absolute inset-0 w-full h-full pointer-events-none opacity-20"
+        className="absolute inset-0 w-full h-full pointer-events-none opacity-20 z-[6]"
         viewBox="0 0 1200 800"
         fill="none"
       >
@@ -53,19 +107,9 @@ const HeroSection = () => {
         />
       </svg>
 
+      {/* Hero content - centered and above all background elements */}
       <div className="container-narrow relative z-10 pt-20">
         <div className="max-w-4xl mx-auto text-center">
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 bg-card rounded-full px-4 py-2 mb-8 shadow-soft"
-          >
-            <span className="text-primary">✦</span>
-            <span className="text-sm font-medium text-foreground">Film Academy Student</span>
-          </motion.div>
-
           {/* Main Headline */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
@@ -82,13 +126,13 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10"
+            className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8"
           >
-            Hi, I'm Routhu Rahul — a passionate filmmaker and video creator 
+            Hi, I'm Routhu Rahul — a passionate filmmaker and video creator
             specializing in short films, cinematic shoots, and viral reels.
           </motion.p>
 
-          {/* CTA Buttons */}
+          {/* CTA Buttons - directly below text, centered */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -107,7 +151,7 @@ const HeroSection = () => {
       </div>
 
       {/* Bottom gradient fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent z-[7]" />
     </section>
   );
 };
