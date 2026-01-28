@@ -18,15 +18,12 @@ const AboutSection = () => {
             className="relative"
           >
             <div className="aspect-[4/5] rounded-3xl bg-secondary overflow-hidden relative">
-              {/* Placeholder for portrait */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center p-8">
-                  <div className="w-24 h-24 rounded-full bg-primary/10 mx-auto mb-4 flex items-center justify-center">
-                    <span className="text-4xl">🎬</span>
-                  </div>
-                  <p className="text-muted-foreground text-sm">Portrait placeholder</p>
-                </div>
-              </div>
+              {/* Profile Image */}
+              <img
+                src="/rahul.jpeg"
+                alt="Routhu Rahul - Filmmaker"
+                className="absolute inset-0 w-full h-full object-cover object-center"
+              />
             </div>
             {/* Decorative element */}
             <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-primary/10 rounded-2xl -z-10" />
@@ -47,19 +44,19 @@ const AboutSection = () => {
             </h2>
             <div className="space-y-4 text-muted-foreground">
               <p>
-                I'm a filmmaking student with a deep passion for visual storytelling. 
-                From the first time I picked up a camera, I knew this was my calling — 
+                I'm a filmmaking student with a deep passion for visual storytelling.
+                From the first time I picked up a camera, I knew this was my calling —
                 capturing moments that evoke emotion and tell compelling stories.
               </p>
               <p>
-                My work spans across short films, cinematic video shoots, and 
-                engaging Instagram reels. I believe every frame should have purpose, 
-                every cut should feel intentional, and every story should resonate 
+                My work spans across short films, cinematic video shoots, and
+                engaging Instagram reels. I believe every frame should have purpose,
+                every cut should feel intentional, and every story should resonate
                 with its audience.
               </p>
               <p>
-                Whether it's a dramatic narrative piece or a fast-paced social media 
-                reel, I bring the same level of dedication and creative vision to 
+                Whether it's a dramatic narrative piece or a fast-paced social media
+                reel, I bring the same level of dedication and creative vision to
                 every project I undertake.
               </p>
             </div>

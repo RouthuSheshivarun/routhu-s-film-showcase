@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Instagram, Youtube, Mail, Film } from "lucide-react";
 
 const socialLinks = [
-  { icon: Instagram, label: "Instagram", href: "#" },
+  { icon: Instagram, label: "Instagram", href: "https://www.instagram.com/seacrab_studio/", external: true },
   { icon: Youtube, label: "YouTube", href: "#" },
   { icon: Mail, label: "Email", href: "mailto:placeholder@email.com" },
 ];
@@ -93,6 +93,7 @@ const Footer = () => {
                     href={social.href}
                     className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-primary-foreground hover:bg-primary/80 transition-colors"
                     aria-label={social.label}
+                    {...(social.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                   >
                     <social.icon className="w-4 h-4" />
                   </a>
